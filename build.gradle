@@ -1,0 +1,50 @@
+group 'oshiP5'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+defaultTasks 'clean', 'copyDependencies', 'build'
+
+sourceCompatibility = 1.8
+
+rootProject.version=''
+buildDir='library'
+libsDirName='./'
+docsDirName='../reference'
+
+task('default') {
+    dependsOn 'clean'
+    dependsOn 'build'
+    dependsOn 'copyDependencies'
+}
+
+javadoc {
+    options.charSet = 'UTF-8'
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+dependencies {
+    compile group: 'org.processing', name: 'core', version: '3.3.7'
+    compile group: 'com.github.oshi', name: 'oshi-core', version: '4.6.1'
+}
+
+task copyDependencies(type:Copy) {
+    copy {
+        from configurations.runtimeClasspath
+        into 'library'
+    }
+}
