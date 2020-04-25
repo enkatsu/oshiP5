@@ -4,6 +4,7 @@
 
 ```bash
 gradle -q
+gradle -q copyDependencies
 ```
 
 ## License
